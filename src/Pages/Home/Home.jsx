@@ -6,30 +6,19 @@ import img from "../../assets/home/chef-service.jpg";
 import ChefRecommend from "../../Components/ChefRecommend/ChefRecommend";
 import Featured from "../../Components/Featured/Featured";
 import Testimonial from "../../Components/Testimonial/Testimonial";
+import { Helmet } from "react-helmet";
+import useMenu from "../../Hooks/useMenu";
 
 const Home = () => {
-  const [menus, setMenu] = useState([]);
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    fetch("/menu.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const items = data.filter((item) => item.category === "popular");
-        setMenu(items);
-      });
-  }, []);
-  useEffect(() => {
-    fetch("/menu.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const items = data.filter((item) => item.recommend === "yes");
-        setItems(items);
-      });
-  }, []);
+  const { Menu } = useMenu();
+  const menus = Menu.filter((item) => item.category === "popular");
+  const items = Menu.filter((item) => item.recommend === "yes");
 
   return (
     <div>
+      <Helmet>
+        <title>Bistro Boss | Home</title>
+      </Helmet>
       <Banner></Banner>
       {/* Home Slider */}
       <div className="w-10/12 mx-auto my-20">
