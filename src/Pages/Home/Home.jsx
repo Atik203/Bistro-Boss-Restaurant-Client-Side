@@ -8,6 +8,7 @@ import Featured from "../../Components/Featured/Featured";
 import Testimonial from "../../Components/Testimonial/Testimonial";
 import { Helmet } from "react-helmet";
 import useMenu from "../../Hooks/useMenu";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { Menu } = useMenu();
@@ -64,12 +65,15 @@ const Home = () => {
             <PopularMenu menu={menu} key={menu._id}></PopularMenu>
           ))}
         </div>
-        <button
-          className="text-center text-lg mt-10 rounded-lg"
-          style={{ borderBottom: "3px solid #1F2937" }}
-        >
-          View Full Menu
-        </button>
+        <Link to="/menu">
+          {" "}
+          <button
+            className="text-center text-lg mt-10 rounded-lg"
+            style={{ borderBottom: "3px solid #1F2937" }}
+          >
+            View Full Menu
+          </button>
+        </Link>
       </div>
       {/* Call Us section */}
       <div className="mx-auto text-center w-10/12 bg-black h-60 rounded-md mb-20">

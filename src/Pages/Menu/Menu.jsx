@@ -8,6 +8,7 @@ import SoupMenu from "../../Components/SoupMenu/SoupMenu";
 import PizzaMenu from "../../Components/PizzaMenu/PizzaMenu";
 import useMenu from "../../Hooks/useMenu";
 import PopularMenu from "../../Components/PopularMenu/PopularMenu";
+import { Link } from "react-router-dom";
 
 const Menu = () => {
   const { Menu } = useMenu();
@@ -38,12 +39,14 @@ const Menu = () => {
           ))}
         </div>
         <div className="text-center">
-          <button
-            className="text-center text-lg mt-10 rounded-lg"
-            style={{ borderBottom: "3px solid #1F2937" }}
-          >
-            ORDER YOUR FAVOURITE FOOD
-          </button>
+          <Link to={`/shop/salad`}>
+            <button
+              className="text-center text-lg mt-10 rounded-lg"
+              style={{ borderBottom: "3px solid #1F2937" }}
+            >
+              ORDER YOUR FAVOURITE FOOD
+            </button>
+          </Link>
         </div>
       </div>
       {/* dessert section */}
@@ -57,12 +60,14 @@ const Menu = () => {
           ))}
         </div>
         <div className="text-center">
-          <button
-            className="text-center text-lg mt-10 rounded-lg"
-            style={{ borderBottom: "3px solid #1F2937" }}
-          >
-            ORDER YOUR FAVOURITE FOOD
-          </button>
+          <Link to={`/shop/dessert`}>
+            <button
+              className="text-center text-lg mt-10 rounded-lg"
+              style={{ borderBottom: "3px solid #1F2937" }}
+            >
+              ORDER YOUR FAVOURITE FOOD
+            </button>
+          </Link>
         </div>
       </div>
       {/* pizza section */}
@@ -76,12 +81,14 @@ const Menu = () => {
           ))}
         </div>
         <div className="text-center">
-          <button
-            className="text-center text-lg mt-10 rounded-lg"
-            style={{ borderBottom: "3px solid #1F2937" }}
-          >
-            ORDER YOUR FAVOURITE FOOD
-          </button>
+          <Link to={`/shop/pizza`}>
+            <button
+              className="text-center text-lg mt-10 rounded-lg"
+              style={{ borderBottom: "3px solid #1F2937" }}
+            >
+              ORDER YOUR FAVOURITE FOOD
+            </button>
+          </Link>
         </div>
       </div>
       {/* soup section */}
@@ -95,12 +102,14 @@ const Menu = () => {
           ))}
         </div>
         <div className="text-center">
-          <button
-            className="text-center text-lg mt-10 rounded-lg"
-            style={{ borderBottom: "3px solid #1F2937" }}
-          >
-            ORDER YOUR FAVOURITE FOOD
-          </button>
+          <Link to={`/shop/soup`}>
+            <button
+              className="text-center text-lg mt-10 rounded-lg"
+              style={{ borderBottom: "3px solid #1F2937" }}
+            >
+              ORDER YOUR FAVOURITE FOOD
+            </button>
+          </Link>
         </div>
       </div>
       {/* salad section */}
@@ -114,12 +123,14 @@ const Menu = () => {
           ))}
         </div>
         <div className="text-center">
-          <button
-            className="text-center text-lg mt-10 rounded-lg"
-            style={{ borderBottom: "3px solid #1F2937" }}
-          >
-            ORDER YOUR FAVOURITE FOOD
-          </button>
+          <Link to={`/shop/salad`}>
+            <button
+              className="text-center text-lg mt-10 rounded-lg"
+              style={{ borderBottom: "3px solid #1F2937" }}
+            >
+              ORDER YOUR FAVOURITE FOOD
+            </button>
+          </Link>
         </div>
       </div>
     </div>
