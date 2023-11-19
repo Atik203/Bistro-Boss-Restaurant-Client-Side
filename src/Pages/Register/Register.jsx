@@ -6,6 +6,15 @@ import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Register = () => {
+  const handleRegister = (e) => {
+    e.preventdefault();
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const name = form.name.value;
+  };
+
   const backgroundImg = {
     background: `url(${bg}) lightgray 50% / cover no-repeat`,
     boxShadow: "10px 10px 10px 10px rgba(0, 0, 0, 0.25)",
@@ -18,22 +27,34 @@ const Register = () => {
   return (
     <div
       style={backgroundImg2}
-      className="w-full h-[600px] lg:h-[800px] border"
+      className="w-full h-[600px] lg:h-[760px] border"
     >
       <Helmet>
         <title>Bistro Boss | Register</title>
       </Helmet>
       {/* Hide the full div on md and sm screens, show on lg and larger screens */}
       <div
-        className="hidden  lg:flex flex-row-reverse w-10/12 mx-auto lg:h-[97vh] mt-10"
+        className="hidden  lg:flex flex-row-reverse w-10/12 mx-auto lg:h-[90vh] mt-12"
         style={backgroundImg}
       >
         <div className="w-1/2 mx-auto mt-24 mr-12">
           <img src={img} alt="" className="w-full" />
         </div>
         <div className="lg:w-1/2 mx-auto ml-12">
-          <form className="card-body max-w-md">
+          <form onSubmit={handleRegister} className="card-body max-w-md">
             <h1 className="text-2xl font-bold text-center mb-2">Register</h1>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-lg font-semibold">Name</span>
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                className="input input-bordered"
+                required
+              />
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text text-lg font-semibold">Email</span>
@@ -41,6 +62,7 @@ const Register = () => {
               <input
                 type="email"
                 placeholder="email"
+                name="email"
                 className="input input-bordered"
                 required
               />
@@ -53,35 +75,15 @@ const Register = () => {
               </label>
               <input
                 type="password"
+                name="password"
                 placeholder="password"
-                className="input input-bordered"
-                required
-              />
-            </div>
-            <div className="form-control mt-2">
-              <input
-                type="text"
-                placeholder="U A g l u o "
-                className="input input-bordered"
-                required
-              />
-              <label className="label">
-                <span className="label-text text-blue-500 text-base font-semibold">
-                  Reload Captcha
-                </span>
-              </label>
-            </div>
-            <div className="form-control mt-1">
-              <input
-                type="text"
-                placeholder="Type here"
                 className="input input-bordered"
                 required
               />
             </div>
             <div className="form-control mt-6">
               <button className="btn border-none hover:text-white hover:bg-gray-500 bg-[#D1A054B3]">
-                Login
+                Register
               </button>
             </div>
             <div>
@@ -112,7 +114,10 @@ const Register = () => {
       {/* Show the full div on md and sm screens, hide on lg and larger screens */}
       <div className=" lg:hidden" style={backgroundImg2}>
         <div className="w-11/12 mx-auto">
-          <form className="card-body max-w-md mx-auto">
+          <form
+            onSubmit={handleRegister}
+            className="card-body max-w-md mx-auto"
+          >
             <h1 className="text-2xl font-bold text-center mb-2">Register</h1>
             <div className="form-control">
               <label className="label">
@@ -163,7 +168,7 @@ const Register = () => {
             </div>
             <div className="form-control mt-6">
               <button className="btn border-none hover:text-white hover:bg-gray-500 bg-[#D1A054B3]">
-                Login
+                Register
               </button>
             </div>
             <div>
