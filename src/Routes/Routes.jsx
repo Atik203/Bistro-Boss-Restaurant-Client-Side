@@ -5,9 +5,11 @@ import Home from "../Pages/Home/Home";
 import Contact from "../Pages/Contact/Contact";
 import Menu from "./../Pages/Menu/Menu";
 import Shop from "../Pages/Shop/Shop";
-import Dashboard from "./../Pages/Dashboard/Dashboard";
+
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
+import Dashboard from "../Root/Dashboard/Dashboard";
+import MyCart from "../Pages/DashboardPage/MyCart/MyCart";
 
 const Routes = createBrowserRouter([
   {
@@ -32,16 +34,23 @@ const Routes = createBrowserRouter([
         element: <Shop></Shop>,
       },
       {
-        path: "/dashboard",
-        element: <Dashboard></Dashboard>,
-      },
-      {
         path: "/login",
         element: <Login></Login>,
       },
       {
         path: "/register",
         element: <Register></Register>,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard></Dashboard>,
+    errorElement: <ErrorPage></ErrorPage>,
+    children: [
+      {
+        path: "cart",
+        element: <MyCart></MyCart>,
       },
     ],
   },

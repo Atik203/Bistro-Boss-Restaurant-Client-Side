@@ -131,9 +131,11 @@ const Navbar = () => {
       <div className="justify-end w-3/4 hidden lg:flex">
         <ul className="flex gap-8 px-1 pr-12">{links}</ul>
         <div className="mr-8 flex items-center gap-1 text-2xl cursor-pointer">
-          <div>
-            <BsCart4></BsCart4>
-          </div>
+          <Link to={"/dashboard/cart"}>
+            <div>
+              <BsCart4></BsCart4>
+            </div>{" "}
+          </Link>
           <div className="badge badge-secondary inline">+{cart?.length}</div>
         </div>
         <div className="mr-4 uppercase cursor-pointer">
