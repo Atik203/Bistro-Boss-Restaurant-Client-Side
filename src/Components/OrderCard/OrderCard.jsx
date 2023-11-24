@@ -4,14 +4,17 @@ import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../Hooks/useAxioxSecure";
 import axios from "axios";
+import useCart from "../../Hooks/useCart";
 
 const OrderCard = ({ item }) => {
+  const [, refetch] = useCart();
   const { name, recipe, image, price, _id } = item;
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
-  const handleCart = (food) => {
+
+  const handleCart = () => {
     if (user && user?.email) {
       const foodItem = {
         menuId: _id,
@@ -30,6 +33,7 @@ const OrderCard = ({ item }) => {
             text: "in the cart",
             icon: "success",
           });
+          refetch();
         }
       });
     } else {
@@ -68,7 +72,7 @@ const OrderCard = ({ item }) => {
       </div>
       <div className="card-actions justify-center mt-2">
         <button
-          onClick={() => handleCart(item)}
+          onClick={handleCart}
           className="btn text-[#BB8506] bg-[#E8E8E8] hover:bg-[#1F2937]"
           style={styles}
         >

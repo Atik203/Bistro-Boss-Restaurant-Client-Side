@@ -3,7 +3,9 @@ import { BsCart4 } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import useCart from "../../Hooks/useCart";
 const Navbar = () => {
+  const [cart] = useCart();
   const [isNavbarTransparent, setIsNavbarTransparent] = useState(true);
   const { user, logOut } = useContext(AuthContext);
 
@@ -132,7 +134,7 @@ const Navbar = () => {
           <div>
             <BsCart4></BsCart4>
           </div>
-          <div className="badge badge-secondary inline">+0</div>
+          <div className="badge badge-secondary inline">+{cart?.length}</div>
         </div>
         <div className="mr-4 uppercase cursor-pointer">
           {user ? (
