@@ -1,20 +1,66 @@
 import { Helmet } from "react-helmet";
 import img from "../../assets/others/authentication2.png";
 import bg from "../../assets/others/authentication.png";
-
+import { updateProfile } from "firebase/auth";
 import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { createUser, SignInGithub, SignInGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const onSubmit = (data) => {
+    const { name, email, password } = data;
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        navigate("/");
+        console.log(user);
+        return updateProfile(user, {
+          displayName: name,
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   const handleRegister = (e) => {
-    e.preventdefault();
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     const name = form.name.value;
+    console.log(email, password, name);
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        return updateProfile(user, {
+          displayName: name,
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
-
+  const handleGithubLogin = () => {
+    SignInGithub()
+      .then((result) => console.log(result.user))
+      .catch((error) => console.log(error.message));
+  };
+  const handleSignInGoogle = () => {
+    SignInGoogle()
+      .then((result) => console.log(result.user))
+      .catch((error) => console.log(error.message));
+  };
   const backgroundImg = {
     background: `url(${bg}) lightgray 50% / cover no-repeat`,
     boxShadow: "10px 10px 10px 10px rgba(0, 0, 0, 0.25)",
@@ -41,7 +87,10 @@ const Register = () => {
           <img src={img} alt="" className="w-full" />
         </div>
         <div className="lg:w-1/2 mx-auto ml-12">
-          <form onSubmit={handleRegister} className="card-body max-w-md">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="card-body max-w-md"
+          >
             <h1 className="text-2xl font-bold text-center mb-2">Register</h1>
             <div className="form-control">
               <label className="label">
@@ -52,6 +101,7 @@ const Register = () => {
                 name="name"
                 placeholder="Name"
                 className="input input-bordered"
+                {...register("name")}
                 required
               />
             </div>
@@ -63,6 +113,7 @@ const Register = () => {
                 type="email"
                 placeholder="email"
                 name="email"
+                {...register("email")}
                 className="input input-bordered"
                 required
               />
@@ -77,6 +128,7 @@ const Register = () => {
                 type="password"
                 name="password"
                 placeholder="password"
+                {...register("password")}
                 className="input input-bordered"
                 required
               />
@@ -97,13 +149,19 @@ const Register = () => {
               </h1>
               <h1 className="my-3 font-medium text-center">Or Login With</h1>
               <div className="flex items-center justify-center gap-6">
-                <div className="text-4xl cursor-pointer">
+                <div className="text-4xl hover:text-blue-500 cursor-pointer">
                   <FaFacebook></FaFacebook>
                 </div>
-                <div className="text-4xl cursor-pointer">
+                <div
+                  onClick={handleSignInGoogle}
+                  className="text-4xl hover:text-red-500 cursor-pointer"
+                >
                   <FaGoogle></FaGoogle>
                 </div>
-                <div className="text-4xl cursor-pointer">
+                <div
+                  onClick={handleGithubLogin}
+                  className="text-4xl hover:text-purple-500 cursor-pointer"
+                >
                   <FaGithub></FaGithub>
                 </div>
               </div>
@@ -119,6 +177,18 @@ const Register = () => {
             className="card-body max-w-md mx-auto"
           >
             <h1 className="text-2xl font-bold text-center mb-2">Register</h1>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-lg font-semibold">Name</span>
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                className="input input-bordered"
+                required
+              />
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text text-base font-semibold">
@@ -145,27 +215,6 @@ const Register = () => {
                 required
               />
             </div>
-            <div className="form-control mt-2">
-              <input
-                type="text"
-                placeholder="U A g l u o "
-                className="input input-bordered"
-                required
-              />
-              <label className="label">
-                <span className="label-text text-blue-500 text-base font-semibold">
-                  Reload Captcha
-                </span>
-              </label>
-            </div>
-            <div className="form-control mt-1">
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered"
-                required
-              />
-            </div>
             <div className="form-control mt-6">
               <button className="btn border-none hover:text-white hover:bg-gray-500 bg-[#D1A054B3]">
                 Register
@@ -182,13 +231,19 @@ const Register = () => {
               </h1>
               <h1 className="my-3 font-medium text-center">Or Login With</h1>
               <div className="flex items-center justify-center gap-6">
-                <div className="text-4xl cursor-pointer">
+                <div className="text-4xl hover:text-blue-500 cursor-pointer">
                   <FaFacebook></FaFacebook>
                 </div>
-                <div className="text-4xl cursor-pointer">
+                <div
+                  onClick={handleSignInGoogle}
+                  className="text-4xl hover:text-red-500 cursor-pointer"
+                >
                   <FaGoogle></FaGoogle>
                 </div>
-                <div className="text-4xl cursor-pointer">
+                <div
+                  onClick={handleGithubLogin}
+                  className="text-4xl hover:text-purple-500 cursor-pointer"
+                >
                   <FaGithub></FaGithub>
                 </div>
               </div>

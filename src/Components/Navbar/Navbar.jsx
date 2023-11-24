@@ -1,9 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import { BsCart4 } from "react-icons/bs";
 import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
 const Navbar = () => {
   const [isNavbarTransparent, setIsNavbarTransparent] = useState(true);
+  const { user, logOut } = useContext(AuthContext);
 
+  const handleLogout = () => {
+    logOut().then().catch();
+  };
   useEffect(() => {
     const handleScroll = () => {
       // Adjust the threshold as needed based on your design
@@ -122,18 +128,25 @@ const Navbar = () => {
 
       <div className="justify-end w-3/4 hidden lg:flex">
         <ul className="flex gap-8 px-1 pr-12">{links}</ul>
-        <div className="mr-8 text-2xl cursor-pointer">
-          <BsCart4></BsCart4>
+        <div className="mr-8 flex items-center gap-1 text-2xl cursor-pointer">
+          <div>
+            <BsCart4></BsCart4>
+          </div>
+          <div className="badge badge-secondary inline">+0</div>
         </div>
         <div className="mr-4 uppercase cursor-pointer">
-          <NavLink
-            to="/login"
-            className={({ isActive, isPending }) =>
-              isPending ? "pending" : isActive ? "text-[#EEFF25]" : ""
-            }
-          >
-            LOGIN
-          </NavLink>
+          {user ? (
+            <button onClick={handleLogout}>LOGOUT</button>
+          ) : (
+            <NavLink
+              to="/login"
+              className={({ isActive, isPending }) =>
+                isPending ? "pending" : isActive ? "text-[#EEFF25]" : ""
+              }
+            >
+              LOGIN
+            </NavLink>
+          )}
         </div>
       </div>
     </div>

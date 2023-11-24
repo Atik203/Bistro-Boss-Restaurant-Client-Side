@@ -7,12 +7,17 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
 
 const Login = () => {
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
+  const { SignIn, SignInGithub, SignInGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || "/";
 
   useEffect(() => {
     loadCaptchaEnginge(6);
@@ -23,6 +28,12 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
+    SignIn(email, password)
+      .then((result) => {
+        console.log(result.user);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => console.log(error.message));
   };
   const handleLogin2 = (e) => {
     e.preventDefault();
@@ -39,6 +50,23 @@ const Login = () => {
     } else {
       setDisabled(true);
     }
+  };
+
+  const handleGithubLogin = () => {
+    SignInGithub()
+      .then((result) => {
+        console.log(result.user);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => console.log(error.message));
+  };
+  const handleSignInGoogle = () => {
+    SignInGoogle()
+      .then((result) => {
+        console.log(result.user);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => console.log(error.message));
   };
 
   const backgroundImg = {
@@ -142,13 +170,19 @@ const Login = () => {
               </h1>
               <h1 className="my-3 font-medium text-center">Or Login With</h1>
               <div className="flex items-center justify-center gap-6">
-                <div className="text-4xl cursor-pointer">
+                <div className="text-4xl hover:text-blue-500 cursor-pointer">
                   <FaFacebook></FaFacebook>
                 </div>
-                <div className="text-4xl cursor-pointer">
+                <div
+                  onClick={handleSignInGoogle}
+                  className="text-4xl hover:text-red-500 cursor-pointer"
+                >
                   <FaGoogle></FaGoogle>
                 </div>
-                <div className="text-4xl cursor-pointer">
+                <div
+                  onClick={handleGithubLogin}
+                  className="text-4xl hover:text-purple-500 cursor-pointer"
+                >
                   <FaGithub></FaGithub>
                 </div>
               </div>
@@ -205,13 +239,19 @@ const Login = () => {
               </h1>
               <h1 className="my-3 font-medium text-center">Or Login With</h1>
               <div className="flex items-center justify-center gap-6">
-                <div className="text-4xl cursor-pointer">
+                <div className="text-4xl hover:text-blue-500 cursor-pointer">
                   <FaFacebook></FaFacebook>
                 </div>
-                <div className="text-4xl cursor-pointer">
+                <div
+                  onClick={handleSignInGoogle}
+                  className="text-4xl hover:text-red-500 cursor-pointer"
+                >
                   <FaGoogle></FaGoogle>
                 </div>
-                <div className="text-4xl cursor-pointer">
+                <div
+                  onClick={handleGithubLogin}
+                  className="text-4xl hover:text-purple-500 cursor-pointer"
+                >
                   <FaGithub></FaGithub>
                 </div>
               </div>
