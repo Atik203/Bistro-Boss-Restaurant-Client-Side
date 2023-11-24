@@ -14,12 +14,14 @@ const useAxiosSecure = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axiosSecure.interceptors.response.use(
-      (res) => {
-        return res;
+    axiosSecure.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem("access-token");
+        config.headers.authorization = `Bearer ${token}`;
+        return config;
       },
       (error) => {
-        if (error.response?.status == 401 || error.response?.status == 403) {
+        if (error.request?.status == 401 || error.request?.status == 403) {
           logOut()
             .then(() => {
               navigate("/login");

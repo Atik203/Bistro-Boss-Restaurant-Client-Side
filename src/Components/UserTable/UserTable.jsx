@@ -1,7 +1,7 @@
 import { MdDelete } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 const UserTable = ({ user, handleDelete, index, handleAdmin }) => {
-  const { name, _id, email } = user;
+  const { name, _id, email, role } = user;
 
   return (
     <tr>
@@ -9,12 +9,16 @@ const UserTable = ({ user, handleDelete, index, handleAdmin }) => {
       <td>{name}</td>
       <td>{email}</td>
       <td>
-        <div
-          onClick={() => handleAdmin(_id)}
-          className="bg-[#D99904] p-2 text-white cursor-pointer hover:bg-gray-400"
-        >
-          <FaUser></FaUser>
-        </div>
+        {role ? (
+          <p>Admin</p>
+        ) : (
+          <div
+            onClick={() => handleAdmin(_id)}
+            className="bg-[#D99904] pl-3 py-2 text-white cursor-pointer hover:bg-gray-400"
+          >
+            <FaUser></FaUser>
+          </div>
+        )}
       </td>
 
       <th>

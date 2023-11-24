@@ -49,9 +49,8 @@ const AllUsers = () => {
       if (result.isConfirmed) {
         axiosSecure.patch(`/users/${id}`).then((res) => {
           if (res.data.modifiedCount > 0) {
-            Swal.fire("Update!", "User has been Updated.", "success");
-
             refetch();
+            Swal.fire("Update!", "User has been Updated.", "success");
           }
         });
       }
