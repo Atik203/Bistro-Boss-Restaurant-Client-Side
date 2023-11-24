@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import { MdReviews } from "react-icons/md";
+import useAdmin from "../../Hooks/useAdmin";
 
 const DrawerLink = ({ to, children }) => (
   <NavLink
@@ -28,8 +29,8 @@ const DrawerLink = ({ to, children }) => (
 
 const Dashboard = () => {
   // TODO: get isAdmin value from database
-  const isAdmin = true;
-
+  const [isAdmin] = useAdmin();
+  console.log(isAdmin);
   const userlinks = (
     <>
       <li>

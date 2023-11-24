@@ -21,16 +21,26 @@ const useAxiosSecure = () => {
         return config;
       },
       (error) => {
-        if (error.request?.status == 401 || error.request?.status == 403) {
-          logOut()
-            .then(() => {
-              navigate("/login");
-            })
-            .catch((error) => console.log(error));
-        }
+        return Promise.reject(error);
       }
     );
   }, [logOut, navigate]);
+
+  axiosSecure.interceptors.response.use(
+    async (res) => {
+      return res;
+    },
+    async (error) => {
+      if (error.response?.status == 401 || error.response?.status == 403) {
+        await logOut()
+          .then(() => {
+            navigate("/login");
+          })
+          .catch((error) => console.log(error));
+      }
+      return Promise.reject(error);
+    }
+  );
 
   return axiosSecure;
 };
