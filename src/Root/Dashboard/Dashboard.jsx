@@ -7,9 +7,14 @@ import {
   FaCalendarCheck,
   FaShoppingBag,
   FaAlignJustify,
+  FaBook,
+  FaUsers,
+  FaList,
+  FaUtensils,
 } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import { MdReviews } from "react-icons/md";
+
 const DrawerLink = ({ to, children }) => (
   <NavLink
     to={to}
@@ -22,10 +27,13 @@ const DrawerLink = ({ to, children }) => (
 );
 
 const Dashboard = () => {
-  const links = (
+  // TODO: get isAdmin value from database
+  const isAdmin = true;
+
+  const userlinks = (
     <>
       <li>
-        <DrawerLink to="/dashboard/home">
+        <DrawerLink to="/dashboard/userhome">
           <FaHome></FaHome> User Home
         </DrawerLink>
       </li>
@@ -52,6 +60,36 @@ const Dashboard = () => {
       <li>
         <DrawerLink to="/dashboard/booking">
           <FaCalendarCheck></FaCalendarCheck>my booking
+        </DrawerLink>
+      </li>
+    </>
+  );
+  const adminlinks = (
+    <>
+      <li>
+        <DrawerLink to="/dashboard/admin-home">
+          <FaHome></FaHome> Admin Home
+        </DrawerLink>
+      </li>
+      <li>
+        <DrawerLink to="/dashboard/add-items">
+          <FaUtensils /> AddItems
+        </DrawerLink>
+      </li>
+      <li>
+        <DrawerLink to="/dashboard/manage-items">
+          <FaList></FaList> Manage Items
+        </DrawerLink>
+      </li>
+      <li>
+        <DrawerLink to="/dashboard/manage-booking">
+          <FaBook></FaBook> Manage bookings
+        </DrawerLink>
+      </li>
+      <li>
+        <DrawerLink to="/dashboard/users">
+          <FaUsers />
+          All Users
         </DrawerLink>
       </li>
     </>
@@ -122,7 +160,7 @@ const Dashboard = () => {
         ></label>
         <ul className="menu p-4 w-80 bg-[#D1A054] uppercase text-white font-bold text-lg min-h-full">
           {/* Sidebar content here */}
-          {links}
+          {isAdmin ? adminlinks : userlinks}
           <div className="divider divider-neutral"></div>
           {menuLinks}
         </ul>

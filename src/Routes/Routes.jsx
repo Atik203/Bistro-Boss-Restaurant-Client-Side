@@ -10,6 +10,8 @@ import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import Dashboard from "../Root/Dashboard/Dashboard";
 import MyCart from "../Pages/DashboardPage/MyCart/MyCart";
+import PrivateRoute from "./PrivateRoute";
+import AllUsers from "../Components/AllUsers/AllUsers";
 
 const Routes = createBrowserRouter([
   {
@@ -45,12 +47,20 @@ const Routes = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
     errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "cart",
         element: <MyCart></MyCart>,
+      },
+      {
+        path: "users",
+        element: <AllUsers></AllUsers>,
       },
     ],
   },

@@ -5,7 +5,7 @@ import CartItem from "../../../Components/CartItem/CartItem";
 
 const MyCart = () => {
   const axiosSecure = useAxiosSecure();
-  const [cart] = useCart();
+  const [cart, refetch] = useCart();
   const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
 
   const handleDelete = (id) => {
@@ -19,13 +19,13 @@ const MyCart = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // axiosSecure.delete(`/orders/${id}`).then((res) => {
-        //   if (res.data.deletedCount > 0) {
-        //     Swal.fire("Deleted!", "Your file has been deleted.", "success");
-        //     // const remaining = orders.filter((order) => order._id !== id);
-        //     // setOrders(remaining);
-        //   }
-        // });
+        axiosSecure.delete(`/carts/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+
+            refetch();
+          }
+        });
       }
     });
   };

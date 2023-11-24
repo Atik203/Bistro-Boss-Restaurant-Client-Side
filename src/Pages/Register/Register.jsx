@@ -7,9 +7,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { useForm } from "react-hook-form";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  const axiosPublic = useAxiosPublic();
+
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -21,10 +26,24 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         const user = result.user;
-        navigate("/");
-        console.log(user);
-        return updateProfile(user, {
-          displayName: name,
+        const userInfo = {
+          name: data.name,
+          email: data.email,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            reset();
+
+            Swal.fire({
+              title: "Registered Success",
+              text: "",
+              icon: "success",
+            });
+            navigate("/");
+            return updateProfile(user, {
+              displayName: name,
+            });
+          }
         });
       })
       .catch((error) => {
@@ -58,7 +77,22 @@ const Register = () => {
   };
   const handleSignInGoogle = () => {
     SignInGoogle()
-      .then((result) => console.log(result.user))
+      .then((res) => {
+        const userInfo = {
+          name: res.user?.displayName,
+          email: res.user?.email,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              title: "Registered Success",
+              text: "",
+              icon: "success",
+            });
+            navigate("/");
+          }
+        });
+      })
       .catch((error) => console.log(error.message));
   };
   const backgroundImg = {

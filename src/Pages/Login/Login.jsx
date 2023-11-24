@@ -10,8 +10,11 @@ import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Login = () => {
+  const axiosPublic = useAxiosPublic();
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const { SignIn, SignInGithub, SignInGoogle } = useContext(AuthContext);
@@ -62,8 +65,19 @@ const Login = () => {
   };
   const handleSignInGoogle = () => {
     SignInGoogle()
-      .then((result) => {
-        console.log(result.user);
+      .then((res) => {
+        console.log(res.user);
+        const userInfo = {
+          name: res.user?.displayName,
+          email: res.user?.email,
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          Swal.fire({
+            title: "Registered Success",
+            text: "",
+            icon: "success",
+          });
+        });
         navigate(from, { replace: true });
       })
       .catch((error) => console.log(error.message));
